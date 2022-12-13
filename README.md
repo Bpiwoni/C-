@@ -10,5 +10,5 @@ Materiały do wykorzystania przez uczniów na zajęciach z informatyki
 
 Linki do zrealizowanych programów:
 
-1. [Tablice](https://github.com/Bpiwoni/C-/blob/main/Tablice)
+1. [Tablice](#Tablice)
 2. []()

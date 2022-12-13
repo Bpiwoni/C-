@@ -1,0 +1,197 @@
+# Tablice w C++
+
+### Wprowadzenie
+Tworzenie zmiennych w C++ jest całkiem proste:
+
+```C++
+int uczen;
+```
+Wyboraźmy sobie, że mamy utworzyć zmienną dla każdego ucznia w szkole w której zapiszemy rok urodzenia. Tworzenie ich w ten sposób jest niezwykle czasochłonne:
+
+```c++
+int uczen1, uczen2, uczen3, uczen4, uczen5, uczen6, uczen7, uczen8, uczen9, uczen10, uczen11, uczen12, uczen13, uczen14; // i tak aż do ... uczen500
+```
+Zastanów się jak mógłby wyglądać teraz warunek sprawdzający który z uczniów jest pełnoletni :) 
+
+---
+### Deklaracja zmiennej tablicowej
+
+Jak widać stworzenie zmiennych, a później ich "interpretacja" wymaga ogromu niepotrzebnej pracy. Stąd też, jeśli mamy stworzyć wiele zmiennych tego samego typu lepiej posłużyć się **_zmienną tablicową_**
+Jej deklaracja jest bardzo podobna do deklaracji zwykłej zmiennej z tą różnicą, że w nawiasach kwadratowych określamy ilość tworzonych zmiennych:
+
+```c++
+int uczen[4];
+```
+Gdybyśmy mieli przedstawić ten typ zmiennej w sposób graficzny, to mógłby wyglądać tak:
+
+Nazwa zmiennej: | uczen[0] | uczen[1] | uczen[2] | uczen[3] |
+---             | ---      | ---      | ---      | ---      | 
+wartość|  0 | 0 | 0 | 0 | 
+
+Jak widać każda z tych zmiennych różni się wartością **indexu** (wartość w nawiasach kwadratowych). 
+
+> **Zapmiętaj** że pierwszy index tablicy to 0 a ostatni to ostatni to n-1
+>
+>> Pierwszy element tej tablicy to: **uczen[0]** - jego wartość to **0**
+> >Ostatni element tej tablicy to: **uczen[3]** - jego wartość to **0**
+
+### Przypisywanie wartości
+Istnieje możliwość przyposania wartości zmiennym tablicowym w momencie ich deklaracji:
+```c++
+uczen[4]={2007,2008};
+```
+
+Nazwa zmiennej: | uczen[0] | uczen[1] | uczen[2] | uczen[3] |
+--- | --- | --- | --- | --- |
+wartość|  2007 | 2008 | 0 | 0 |
+
+Nic nie stoi na przeszkodzie aby w później czasie przypisać wartość zmiennej tablicowej a można to zrobić w taki sposób:
+```c++
+uczen[3]=2002;
+```
+Tablica uczeń będzie miała teraz następującą postać:
+
+Nazwa zmiennej: | uczen[0] | uczen[1] | uczen[2] | uczen[3] |
+--- | --- | --- | --- | --- |
+wartość|  2007 | 2008 | 0 | 2002 |
+
+### Wyświetlanie zawartości
+Wyświetlanie zmiennej tablicowej wykonujemy w taki sam sposób jak przy wyświetlaniu innych zmiennych, pamiętając o tym który **index** tablicy nas interesuje:
+```c++
+cout << uczen[4] ; // pamiętaj o podaniu indexu w nawiasach
+```
+Chcąc wyświetlić wszystkie wartości znajdujące się w tablicy możemy postępować jak powyżej:
+```c++
+cout << uczen[0] << " ";
+cout << uczen[1] << " ";
+cout << uczen[2] << " ";
+cout << uczen[3] << " ";
+```
+Jak widać powyżej, każda kolejna linijka różni się od poprzedniej **indexem**. Gdyby posłużyć się w tym przypadku iteracją to można byłoby ten zapis sprowadzić do następującej postaci.
+```c++
+for(int i=0; i<4; i++)
+cout << uczen[i] << " ";
+```
+
+> i=0 - pierwszym **indexem** tablicy jest 0 stąd też właśnie taka wartość iteratora
+
+> i<4 lub i<=3 ostatnią zmienną tablicową jest uczen[3] stąd też takie warunek
+
+
+### Uzupełnianie tablicy wartościami
+
+```c++
+for(int i=0; i<4; i++) 
+uczen[i] = 5;
+```
+W efekcie, wszystkie elementy tablicy zmienią wartość na 5
+
+Gdybyśmy chcieli uzupełnić wszystkie elementy tablicy wartościami jej indexów:
+```c++
+for(int i=0; i<4; i++) 
+uczen[i] = i;
+```
+Można też odwrotnie:
+```c++
+for(int i=0; i<4; i++) 
+uczen[i] = 4-i;
+```
+
+### Liczby pseudolosowe
+
+Aby wartości tablicy były mniej oczywiste można spróbować uzupełnić je liczbami pseudolosowymi
+
+W tym celu należy dodać następującą bibliotekę:
+```c++
+#include <iostream>
+#include <ctime>
+using namespace std;
+int x;
+int main()
+{
+     srand( time( NULL ) );
+     for(int i=0; i<4; i++) 
+     {
+             x =( std::rand() % 100 ) + 1;
+              uczen[i] = x;
+     }
+
+    return 0;
+}
+```
+Następnie wpisujemy poniższą linijkę w naszym kodzie:
+```c++
+srand(time(0));
+```
+Nie jest istotne zagłębiać się w jej znaczenie. Rozpoczyna ona w naszym programie pewne odliczanie, które później pozwoli nam pobrac losowe wartości przy pomocy funkcji **rand()**. Istotne jest to, by powyższy kod wywołać nim zaczniemy te wartości generować. 
+Oto wzór, który pozwoli nam manipulować przedziałem, z którego będziemy otrzymywać zmienne:
+> **rand()%(b-a+1) +a;** *dla przedziału [a, b]*
+
+Oto przykładowy kawałek programu:
+```c++
+int a =1, b =10, tab[10];
+
+srand(time(0));
+
+for(int i =0; i <10; i++)
+		tab[i] =rand()%(b-a+1)+a;
+```
+-----
+
+### Tablice dwuwymiarowe
+
+Oczywiste jest, że czasem chcielibyśmy zapisać dane nie tylko w zwykłym jednowymiarowym ciągu tzw. **wektorze**, ale także w dwuwymiarowej płaszczyźnie. Na pomoc przychodzą nam tablice dwuwymiarowe. Definiujemy je w poniższy sposób:
+```c++
+int tab[10][8];
+```
+Zasady użycia są takie same jak w przypadku jednowymiarowych. Wypisać dane z tablicy możemy choćby w taki sposób:
+```c++
+for(int i =0; i <10; i++){
+	for(int j =0; j <8; j++)
+		cout << tab[i][j] << " ";
+	cout << endl;
+}
+```
+Co ciekawe, wymiarów może być więcej. Ile tylko zapragniemy. 
+```c++
+int tabl[11][2][3][4][5][6][7];
+```
+Jednakże, w miarę rozbudowywania naszej tablicy o kolejne wymiary, możemy się napotkać na poniższy komunikat:
+>total size of array must not exceed 0x7fffffff bytes
+
+W prawdziwym życiu nie używa się zazwyczaj tablic więcej niż dwywymiarowych, dlatego nie jest to powód do zmartwień.
+
+-----
+
+### Tablice jako argument funkcji
+
+Jak wiemy, funkcje przyjmując argumenty tworzą ich kopie i na tych własnie kopiach operują później w środku. Zapobiega to zmianie tychże argumentów przez funkcję, która mogłaby później sporo tym namieszać w naszym programie. Możemy co prawda podać argument przez referencję, ale najczęściej odbywa się przez tworzenie klonów argumentów i używanie ich wewnątrz funkcji. 
+
+Sprawa ma się inaczej z tablicami. Twórcy języka C++ uznali, że sa zbyt duże, by wykonywać ich kopie, dlatego przesyłamy do funkcji je przez referencję. Oto przykład prostej funkcji:
+```c++
+void zero(int *table, int len){
+	for(int i=0; i <len; i++)
+		table[i]=0;
+}
+```
+Użycie takiej funkcji na tablicy **jednowymiarowej** wyzeruje nam jej wartości. Musimy także podać ilość elementów, by pętla *for* była w stanie przeiterować przez odpowiednią ilość elementów. Zamiast **int *table** moglibyśmy równie dobrze wpisać **int table[]** lub **int table[7]**. W ostatnim przypadku podana wartość wew. nawiasu kwadratowego **[ ]** nawet niczego nie zmienia, gdyż przesyłamy adres do początku tablicy.
+Polecam używac wersji z pustym nawiasem kwadratowym, gdyż jest to znacznie bardziej intuicyjne dla czytającego nasz kod. Wie dzięki temu, że przesyłamy do funkcji tablicę, a nie jakiś wskaźnik.
+
+---
+
+Sprawa delikatnie się komplikue przy **tablicach dwuwymiarowych**. Tam musimy podać rozmiar drugiego wymiaru tablicy w nawiasie kwadratowym przy deklaracji funkcji:
+```c++
+void zero(int table[][7], int len){
+	for(int i =0; i <len; i++)
+		for (int j =0; j <7; j++)
+			table[i][j]=0;
+}
+```
+Z tego też faktu, powyższa funkcja będzie użyteczna tylko dla tablic, których ilość wierszy jest równa *7*. Nie jest to więc zbyt wszechstronne.
+Funkcji używamy w taki oto sposób:
+```c++
+int tab[10][7];
+
+zero(tab, 10);
+```
+Nazwa tablicy **tab** jest jednocześnie wskaźnikiem do jej pierwszego elementu. Dzięki czemu powyższy kod wywoła się bezproblemowo.

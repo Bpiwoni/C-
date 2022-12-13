@@ -1,14 +1,14 @@
-# \<Nazwa repozytorium  >
+# Podstawy programowania w C++
 
-`<Imię i nazwisko autora> <data stworzenia>`
+`<Bogumił Piwoni> <2023>`
 
 ## Opis
 
-Opis projektu
+Materiały do wykorzystania przez uczniów na zajęciach z informatyki
 
 ## Spis treści
 
 Linki do zrealizowanych programów:
 
-1. [Alorytm 1]()
-2. [Alorytm 2]()
+1. [Tablice]()
+2. []()

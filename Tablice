@@ -38,7 +38,7 @@ Jak widać każda z tych zmiennych różni się wartością **indexu** (wartoś�
 ### Przypisywanie wartości
 Istnieje możliwość przyposania wartości zmiennym tablicowym w momencie ich deklaracji:
 ```c++
-uczen[4]={2007,2008};
+int uczen[4]={2007,2008};
 ```
 
 Nazwa zmiennej: | uczen[0] | uczen[1] | uczen[2] | uczen[3] |
@@ -58,7 +58,7 @@ wartość|  2007 | 2008 | 0 | 2002 |
 ### Wyświetlanie zawartości
 Wyświetlanie zmiennej tablicowej wykonujemy w taki sam sposób jak przy wyświetlaniu innych zmiennych, pamiętając o tym który **index** tablicy nas interesuje:
 ```c++
-cout << uczen[4] ; // pamiętaj o podaniu indexu w nawiasach
+cout << uczen[3] ; // pamiętaj o podaniu indexu w nawiasach
 ```
 Chcąc wyświetlić wszystkie wartości znajdujące się w tablicy możemy postępować jak powyżej:
 ```c++
@@ -69,8 +69,18 @@ cout << uczen[3] << " ";
 ```
 Jak widać powyżej, każda kolejna linijka różni się od poprzedniej **indexem**. Gdyby posłużyć się w tym przypadku iteracją to można byłoby ten zapis sprowadzić do następującej postaci.
 ```c++
-for(int i=0; i<4; i++)
-cout << uczen[i] << " ";
+#include <iostream>
+
+using namespace std;
+int uczen[4]={2007, 2008, 2011, 2002};
+int main()
+{
+    for (int i=0; i<4; i++)
+    {
+        cout << uczen[i]<< " " ;
+    }
+    return 0;
+}
 ```
 
 > i=0 - pierwszym **indexem** tablicy jest 0 stąd też właśnie taka wartość iteratora
@@ -106,92 +116,35 @@ W tym celu należy dodać następującą bibliotekę:
 #include <iostream>
 #include <ctime>
 using namespace std;
-int x;
+int x, uczen[100];
 int main()
 {
+////////////// Napełnianie tablicy uczen losowymi liczbami /////////////////////////
      srand( time( NULL ) );
-     for(int i=0; i<4; i++) 
+     for(int i=0; i<100; i++)
      {
              x =( std::rand() % 100 ) + 1;
               uczen[i] = x;
      }
+////////////// Od tego miejsca tablica jest juz zapełniona losowymi liczbami///////
+
+/////////////Wyświetlanie 10 pierwszych elementów tablicy /////////////////////////
+for (int i=0; i<10; i++) cout << uczen[i]<<" " ;
+
+///TUTAJ Rozwiązuj zadania
 
     return 0;
 }
 ```
-Następnie wpisujemy poniższą linijkę w naszym kodzie:
-```c++
-srand(time(0));
-```
-Nie jest istotne zagłębiać się w jej znaczenie. Rozpoczyna ona w naszym programie pewne odliczanie, które później pozwoli nam pobrac losowe wartości przy pomocy funkcji **rand()**. Istotne jest to, by powyższy kod wywołać nim zaczniemy te wartości generować. 
-Oto wzór, który pozwoli nam manipulować przedziałem, z którego będziemy otrzymywać zmienne:
-> **rand()%(b-a+1) +a;** *dla przedziału [a, b]*
 
-Oto przykładowy kawałek programu:
-```c++
-int a =1, b =10, tab[10];
+# Zadania
+Napisz program który:
 
-srand(time(0));
-
-for(int i =0; i <10; i++)
-		tab[i] =rand()%(b-a+1)+a;
-```
------
-
-### Tablice dwuwymiarowe
-
-Oczywiste jest, że czasem chcielibyśmy zapisać dane nie tylko w zwykłym jednowymiarowym ciągu tzw. **wektorze**, ale także w dwuwymiarowej płaszczyźnie. Na pomoc przychodzą nam tablice dwuwymiarowe. Definiujemy je w poniższy sposób:
-```c++
-int tab[10][8];
-```
-Zasady użycia są takie same jak w przypadku jednowymiarowych. Wypisać dane z tablicy możemy choćby w taki sposób:
-```c++
-for(int i =0; i <10; i++){
-	for(int j =0; j <8; j++)
-		cout << tab[i][j] << " ";
-	cout << endl;
-}
-```
-Co ciekawe, wymiarów może być więcej. Ile tylko zapragniemy. 
-```c++
-int tabl[11][2][3][4][5][6][7];
-```
-Jednakże, w miarę rozbudowywania naszej tablicy o kolejne wymiary, możemy się napotkać na poniższy komunikat:
->total size of array must not exceed 0x7fffffff bytes
-
-W prawdziwym życiu nie używa się zazwyczaj tablic więcej niż dwywymiarowych, dlatego nie jest to powód do zmartwień.
-
------
-
-### Tablice jako argument funkcji
-
-Jak wiemy, funkcje przyjmując argumenty tworzą ich kopie i na tych własnie kopiach operują później w środku. Zapobiega to zmianie tychże argumentów przez funkcję, która mogłaby później sporo tym namieszać w naszym programie. Możemy co prawda podać argument przez referencję, ale najczęściej odbywa się przez tworzenie klonów argumentów i używanie ich wewnątrz funkcji. 
-
-Sprawa ma się inaczej z tablicami. Twórcy języka C++ uznali, że sa zbyt duże, by wykonywać ich kopie, dlatego przesyłamy do funkcji je przez referencję. Oto przykład prostej funkcji:
-```c++
-void zero(int *table, int len){
-	for(int i=0; i <len; i++)
-		table[i]=0;
-}
-```
-Użycie takiej funkcji na tablicy **jednowymiarowej** wyzeruje nam jej wartości. Musimy także podać ilość elementów, by pętla *for* była w stanie przeiterować przez odpowiednią ilość elementów. Zamiast **int *table** moglibyśmy równie dobrze wpisać **int table[]** lub **int table[7]**. W ostatnim przypadku podana wartość wew. nawiasu kwadratowego **[ ]** nawet niczego nie zmienia, gdyż przesyłamy adres do początku tablicy.
-Polecam używac wersji z pustym nawiasem kwadratowym, gdyż jest to znacznie bardziej intuicyjne dla czytającego nasz kod. Wie dzięki temu, że przesyłamy do funkcji tablicę, a nie jakiś wskaźnik.
-
----
-
-Sprawa delikatnie się komplikue przy **tablicach dwuwymiarowych**. Tam musimy podać rozmiar drugiego wymiaru tablicy w nawiasie kwadratowym przy deklaracji funkcji:
-```c++
-void zero(int table[][7], int len){
-	for(int i =0; i <len; i++)
-		for (int j =0; j <7; j++)
-			table[i][j]=0;
-}
-```
-Z tego też faktu, powyższa funkcja będzie użyteczna tylko dla tablic, których ilość wierszy jest równa *7*. Nie jest to więc zbyt wszechstronne.
-Funkcji używamy w taki oto sposób:
-```c++
-int tab[10][7];
-
-zero(tab, 10);
-```
-Nazwa tablicy **tab** jest jednocześnie wskaźnikiem do jej pierwszego elementu. Dzięki czemu powyższy kod wywoła się bezproblemowo.
+1. Wyświetli wartości tablicy od pierwszego do ostatniego
+2. Wyświetli wartości tablicy od ostatniego do pierwszego
+3. Wyśweitli wartości parami od początku: (pierwszy z drugim; trzeci z czwartym itd.)
+3. Wyświetli wartości parami z tablicy (pierwszy / ostatni; drugi / przedostatni itd.)
+4. Wyświetli największą wartość tablicy
+5. Wyświetli najmniejszą wartość tablicy (nie mniejszą od 0)
+6. Wyświetli sumę wartości tablicy
+7. Wyświetl drugą co do wielkości wartość tablicy
